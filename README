@@ -9,3 +9,8 @@ Votre équipe doit réaliser une librairie permettant de spécifier et d'exécut
 - Je veux être en mesure d'exécuter tous les tests d'un cas d'un seul coup;
 - Lors de l'exécution, si un des tests échoue, les autres tests doivent quand même s'exécuter;
 - À la fin de l'exécution des tests, un message indique si tous les tests ont passés ou non.
+
+Marche à suivre :
+
+$ git clone git://github.com/jfmonette/mgl7361-omega.git
+$ cd mgl7361-omega
