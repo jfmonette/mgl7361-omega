@@ -6,7 +6,7 @@ import mgl7361.framework.annotation.*;
 public class ForestTest {
 	
 	@Test
-	public void AddingTreesToAForest() {
+	public static void AddingTreesToAForest() {
 		Forest forest = new Forest();
 		forest.AddTree(new Tree());
 	}
