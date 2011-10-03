@@ -1,5 +1,7 @@
 package mgl7361.framework;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -19,9 +21,9 @@ class TestRunner {
 	public void execute(TestSuite testSuite){
 		this.executeTests(testSuite.getTests());
 		this.executeTestCases(testSuite.getTestCases());
-		this.printResults();
+		this.outputResultsToFile();
 	}
-	
+
 	private void executeTests(List<Test> tests) {
 		for (Test test : tests) {
 			this.executeTest(test);
@@ -56,7 +58,15 @@ class TestRunner {
 		
 	}
 	
-	public void printResults() {
-		System.out.printf("Passed: %d, Failed %d%n", numberOfPassedTests, numberOfFailedTests);		
+	private void outputResultsToFile() {
+		try {
+			FileWriter fstream = new FileWriter("results.txt");
+			BufferedWriter out = new BufferedWriter(fstream);
+			out.write("Passed: " + numberOfPassedTests + " Failed: " + numberOfFailedTests );
+			out.close();
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
+		}
 	}
+		
 }
