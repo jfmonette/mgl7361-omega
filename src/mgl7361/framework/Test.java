@@ -5,9 +5,9 @@ import java.lang.reflect.Method;
 class Test {
 	private Method testMethod, setupMethod, tearDownMethod;
 	
-	protected Test(Method testMethod, Method setupMethod, Method tearDownMethod) {
-		this.testMethod = testMethod;
+	protected Test(Method setupMethod, Method testMethod, Method tearDownMethod) {
 		this.setupMethod = setupMethod;
+		this.testMethod = testMethod;
 		this.tearDownMethod = tearDownMethod;		
 	}
 	

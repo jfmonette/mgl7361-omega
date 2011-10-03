@@ -1,56 +1,25 @@
 package mgl7361.framework;
 
-import java.lang.reflect.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import mgl7361.framework.annotation.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestingTool {
-	private static int numberOfPassedTests = 0, numberOfFailedTests = 0;
-	private static Collection<Class<?>> classesToTest = new LinkedList<Class<?>>();
-	private static Collection<Method> methodsToTest = new LinkedList<Method>();
-	
 	public static void main(String[] args) throws Exception {
-		ExtractClassesToTestFromArguments(args);
-		ExtractMethodsToTestFromClasses();
-		RunMethodsToTest();
-	
-		System.out.printf("Passed: %d, Failed %d%n", numberOfPassedTests, numberOfFailedTests);
+		TestRunner testRunner = TestRunner.getInstance();
+		TestSuite testSuite = new TestSuite();
+		TestCaseFactory factory = new TestCaseFactory();
+		
+		for (String className : getClassNamesFromArguments(args)) {
+			testSuite.add(factory.makeTestCase(className));
+			testRunner.execute(testSuite);
+		}
 	}
 	
-	private static void ExtractClassesToTestFromArguments(String[] args) throws ClassNotFoundException {
+	private static List<String> getClassNamesFromArguments(String[] args) throws ClassNotFoundException {
+		List<String> classNames = new ArrayList<String>();
 		for (String className : args) {
-			classesToTest.add(Class.forName(className));
+			classNames.add(className);
 		}
-	}
-	
-	private static void ExtractMethodsToTestFromClasses() {
-		for (Class<?> classToTest : classesToTest) {
-			methodsToTest.addAll(Arrays.asList(classToTest.getMethods()));
-		}
-		RemoveNonTestAnnotatedMethods();
-	}
-	
-	private static void RemoveNonTestAnnotatedMethods() {
-		Collection<Method> methodsToRemove = new LinkedList<Method>();
-		for (Method method : methodsToTest) {
-			if (!method.isAnnotationPresent(Test.class)){
-				methodsToRemove.add(method);
-			}
-		}
-		methodsToTest.removeAll(methodsToRemove);	
-	}
-	
-	private static void RunMethodsToTest() {
-		for (Method method : methodsToTest) {
-			try {
-				method.invoke(null);
-	            numberOfPassedTests++;
-	         } catch (Throwable ex) {
-	            numberOfFailedTests++;
-	         }
-		}
+		return classNames;
 	}
 }

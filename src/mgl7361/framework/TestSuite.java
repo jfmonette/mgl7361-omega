@@ -1,10 +1,25 @@
 package mgl7361.framework;
 
-import mgl7361.framework.TestCase;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.Collection;
-import java.util.LinkedList;
-
-public class TestSuite {
+class TestSuite {
+	private List<Test> tests = new ArrayList<Test>();
+	private List<TestCase> testCases = new ArrayList<TestCase>();
 	
+	protected void add(Test test) {
+		tests.add(test);
+	}
+	
+	protected void add(TestCase testCase) {
+		testCases.add(testCase);
+	}
+	
+	protected List<Test> getTests() {
+		return this.tests;
+	}
+	
+	protected List<TestCase> getTestCases() {
+		return this.testCases;
+	}
 }
