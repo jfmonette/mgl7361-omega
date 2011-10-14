@@ -1,1 +1,1 @@
-Passed: 1 Failed: 0
+TestCase: mgl7361.mockproject.test.BranchTest Passed: 1 Failed: 0
