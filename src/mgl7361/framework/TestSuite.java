@@ -4,22 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 class TestSuite {
-	private List<Test> tests = new ArrayList<Test>();
 	private List<TestCase> testCases = new ArrayList<TestCase>();
-	
-	protected void add(Test test) {
-		tests.add(test);
-	}
+	private List<TestSuite> testSuites = new ArrayList<TestSuite>();
 	
 	protected void add(TestCase testCase) {
 		testCases.add(testCase);
 	}
 	
-	protected List<Test> getTests() {
-		return this.tests;
+	protected void add(TestSuite testSuite) {
+		testSuites.add(testSuite);
 	}
 	
 	protected List<TestCase> getTestCases() {
-		return this.testCases;
+		List<TestCase> allTestCases = new ArrayList<TestCase>(); 
+			allTestCases.addAll(this.getInnerTestCases());
+			allTestCases.addAll(this.testCases);			
+		return allTestCases;
 	}
+	
+	private List<TestCase> getInnerTestCases() {
+		List<TestCase> testCases = new ArrayList<TestCase>();
+		for (TestSuite testSuite : this.getTestSuites()) {
+			testCases = testSuite.getTestCases();
+		}	
+		return testCases;
+	}
+
+	protected List<TestSuite> getTestSuites() {
+		return this.testSuites;
+	}
+	
+	
 }

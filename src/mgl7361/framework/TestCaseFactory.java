@@ -13,7 +13,7 @@ public class TestCaseFactory {
 	public TestCase makeTestCase(String className) throws ClassNotFoundException {
 		Class<?> klass = this.parseClass(className);
 		List<Method> methods = this.extractMethods(klass);
-		return this.buildTestCase(methods);
+		return this.buildTestCase(className, methods);
 	}
 
 	private Class<?> parseClass(String className) throws ClassNotFoundException {
@@ -24,11 +24,11 @@ public class TestCaseFactory {
 		return Arrays.asList(klass.getMethods());
 	}
 	
-	private TestCase buildTestCase(List<Method> methods) {
+	private TestCase buildTestCase(String testCaseName, List<Method> methods) {
 		Method setupMethod = this.getSetupMethod(methods);
 		List<Method> testMethods = this.getTestMethods(methods);
 		Method teardownMethod = this.getTearDownMethod(methods);
-		TestCase testCase = new TestCase();
+		TestCase testCase = new TestCase(testCaseName);
 		testCase.addAll(this.buildTests(setupMethod, testMethods, teardownMethod));
 		return testCase;
 	}

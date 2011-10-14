@@ -5,9 +5,18 @@ import java.util.List;
 
 public class TestCase {
 	private List<Test> tests = new ArrayList<Test>();
+	private String name;
 	
 	protected TestCase() {
-		
+		name = "Unnamed test case";
+	}
+	
+	protected TestCase(String testClassName) {
+		this.name = testClassName;
+	}
+	
+	protected String getName() {
+		return name;
 	}
 	
 	protected void add(Test test) {

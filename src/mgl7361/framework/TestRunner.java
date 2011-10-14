@@ -1,13 +1,12 @@
 package mgl7361.framework;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
+import mgl7361.framework.results.TestCaseResult;
+import mgl7361.framework.results.TestResult;
+
 class TestRunner {
-	private static int numberOfPassedTests = 0, numberOfFailedTests = 0;
-	
 	private TestRunner() { }
 	
 	private static class SingletonHolder { 
@@ -18,55 +17,48 @@ class TestRunner {
         return SingletonHolder.instance;
 	}
 	
-	public void execute(TestSuite testSuite){
-		this.executeTests(testSuite.getTests());
-		this.executeTestCases(testSuite.getTestCases());
-		this.outputResultsToFile();
-	}
-
-	private void executeTests(List<Test> tests) {
-		for (Test test : tests) {
-			this.executeTest(test);
+	public List<TestCaseResult> execute(TestSuite testSuite){
+		List<TestCaseResult> testCaseResults = new ArrayList<TestCaseResult>();
+		for (TestCase testCase : testSuite.getTestCases()) {
+			testCaseResults.add(this.executeTestCase(testCase));
 		}
+		return testCaseResults;
 	}
 
-	private void executeTest(Test test) {
-		this.executeWithoutLogging(test.getSetupMethod());
-		this.executeWithLogging(test.getTestMethod());
-		this.executeWithoutLogging(test.getTearDownMethod());	
-	}
-
-	private void executeWithLogging(Method method) {
-		try {
-			method.invoke(null);
-            numberOfPassedTests++;
-         } catch (Throwable ex) {
-            numberOfFailedTests++;
-         }
-	}
-
-	private void executeWithoutLogging(Method method) {
-		try {
-			method.invoke(null);
-         } catch (Throwable ex) { }
-	}
-
-	private void executeTestCases(List<TestCase> testCases) {
-		for (TestCase testCase : testCases) {
-			this.executeTests(testCase.getTests());
+	private TestCaseResult executeTestCase(TestCase testCase) {
+		TestCaseResult testCaseResult = new TestCaseResult(testCase.getName());
+		for (Test test : testCase.getTests()) {
+			this.executeSetup(test);
+			testCaseResult.addTestResult(this.executeTest(test));
+			this.executeTearDown(test);
 		}
-		
+		return testCaseResult;
 	}
 	
-	private void outputResultsToFile() {
+	private void executeSetup(Test test) {
 		try {
-			FileWriter fstream = new FileWriter("results.txt");
-			BufferedWriter out = new BufferedWriter(fstream);
-			out.write("Passed: " + numberOfPassedTests + " Failed: " + numberOfFailedTests );
-			out.close();
-		} catch (Exception e) {
-			System.err.println("Error: " + e.getMessage());
-		}
+			test.getSetupMethod().invoke(null);
+		} catch (Throwable ex) {
+            // TODO: throw something
+        }
 	}
-		
+
+	private TestResult executeTest(Test test) {
+		TestResult testResult;
+		try {
+			test.getTestMethod().invoke(null);
+			testResult = new TestResult(test.getTestMethod().getName(), true);
+         } catch (Throwable ex) {
+        	 testResult = new TestResult(test.getTestMethod().getName(), false);
+         }
+         return testResult;
+	}
+	
+	private void executeTearDown(Test test) {
+		try {
+			test.getTearDownMethod().invoke(null);
+		} catch (Throwable ex) {
+            // TODO: throw something
+        }
+	}		
 }
