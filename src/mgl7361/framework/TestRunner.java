@@ -1,10 +1,8 @@
 package mgl7361.framework;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mgl7361.framework.results.TestCaseResult;
 import mgl7361.framework.results.TestResult;
+import mgl7361.framework.results.TestSuiteResult;
 
 class TestRunner {
 	private TestRunner() { }
@@ -17,22 +15,36 @@ class TestRunner {
         return SingletonHolder.instance;
 	}
 	
-	public List<TestCaseResult> execute(TestSuite testSuite){
-		List<TestCaseResult> testCaseResults = new ArrayList<TestCaseResult>();
-		for (TestCase testCase : testSuite.getTestCases()) {
-			testCaseResults.add(this.executeTestCase(testCase));
+	public TestSuiteResult execute(TestSuite testSuite){
+		TestSuiteResult testSuiteResult = new TestSuiteResult(testSuite.getName());
+		for(TestCase testCase : testSuite.getTestCases()) {
+			testSuiteResult.add(this.execute(testCase));
 		}
-		return testCaseResults;
+		for (TestSuite innerTestSuite : testSuite.getTestSuites()) {
+			testSuiteResult.add(this.execute(innerTestSuite));
+		}
+		return testSuiteResult;
 	}
 
-	private TestCaseResult executeTestCase(TestCase testCase) {
+	public TestCaseResult execute(TestCase testCase) {
 		TestCaseResult testCaseResult = new TestCaseResult(testCase.getName());
 		for (Test test : testCase.getTests()) {
-			this.executeSetup(test);
-			testCaseResult.addTestResult(this.executeTest(test));
-			this.executeTearDown(test);
+			testCaseResult.addTestResult(this.execute(test));			
 		}
 		return testCaseResult;
+	}
+	
+	public TestResult execute(Test test) {
+		TestResult testResult;
+		try {
+			this.executeSetup(test);
+			test.getTestMethod().invoke(null);
+			this.executeTearDown(test);
+			testResult = new TestResult(test.getTestMethod().getName(), true);
+         } catch (Throwable ex) {
+        	 testResult = new TestResult(test.getTestMethod().getName(), false);
+         }
+         return testResult;
 	}
 	
 	private void executeSetup(Test test) {
@@ -43,17 +55,6 @@ class TestRunner {
         }
 	}
 
-	private TestResult executeTest(Test test) {
-		TestResult testResult;
-		try {
-			test.getTestMethod().invoke(null);
-			testResult = new TestResult(test.getTestMethod().getName(), true);
-         } catch (Throwable ex) {
-        	 testResult = new TestResult(test.getTestMethod().getName(), false);
-         }
-         return testResult;
-	}
-	
 	private void executeTearDown(Test test) {
 		try {
 			test.getTearDownMethod().invoke(null);

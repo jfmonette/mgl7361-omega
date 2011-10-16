@@ -8,7 +8,15 @@ import java.util.List;
 import mgl7361.framework.annotation.*;
 
 public class TestCaseFactory {
-	public TestCaseFactory() {	};
+	private TestCaseFactory() { };
+	
+	private static class SingletonHolder { 
+        public static final TestCaseFactory instance = new TestCaseFactory();
+	}
+	
+	public static TestCaseFactory getInstance() {
+        return SingletonHolder.instance;
+	}
 	
 	public TestCase makeTestCase(String className) throws ClassNotFoundException {
 		Class<?> klass = this.parseClass(className);

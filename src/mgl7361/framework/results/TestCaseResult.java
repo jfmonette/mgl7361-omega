@@ -12,12 +12,6 @@ public class TestCaseResult {
 		this.TestCaseName = testCaseName;
 	}
 	
-	public TestCaseResult(String testCaseName, List<TestResult> testResults) {
-		super();
-		this.TestCaseName = testCaseName;
-		this.testResults = testResults;
-	}
-	
 	public void addTestResult(TestResult testResult) {
 		this.testResults.add(testResult);
 	}
@@ -45,5 +39,13 @@ public class TestCaseResult {
 	
 	public List<TestResult> getTestResults() {
 		return testResults;
+	}
+	
+	public String toString() {
+		StringBuilder testCaseString = new StringBuilder();
+		testCaseString.append("Test Case : " + this.getTestCaseName() + " ");
+		testCaseString.append("Passed : " + this.getNumberOfPassedTests() + " ");
+		testCaseString.append("Failed : " + this.getNumberOfFailedTests());
+		return testCaseString.toString();
 	}
 }
