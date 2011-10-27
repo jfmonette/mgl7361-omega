@@ -30,7 +30,7 @@ public class Omega {
 			try {
 				testSuite.add(factory.makeTestCase(className));
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+				System.out.print("Unable to find a class named '" + className + "'");
 			}
 		}
 	}
@@ -48,13 +48,8 @@ public class Omega {
 	}
 
 	private static void outputTestSuiteResultToFile() {
-		try {
-			Writer resultWriter = new TextFileWriter();
-			resultWriter.write(testSuiteResult, getOutputFormat());
-		}
-		catch (Exception ex) {
-			
-		}	
+		Writer resultWriter = new TextFileWriter();
+		resultWriter.write(testSuiteResult, getOutputFormat());	
 	}
 	
 	private static Format getOutputFormat() {
