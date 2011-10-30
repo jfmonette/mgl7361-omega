@@ -15,7 +15,7 @@ public class Omega {
 	static TestSuite testSuite;
 	static Result testSuiteResult;
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		parseCommandLineArguments(args);
 		testClassesNames = commandLineParser.getRemainingArgs();
 		buildTestSuite();

@@ -1,0 +1,13 @@
+Testsuite: ca.uqam.mgl7361.a2011.omega.framework.OmegaTest
+Tests run: 1, Failures: 0, Errors: 1, Time elapsed: 0.031 sec
+
+Testcase: testCommandLine took 0.015 sec
+	Caused an ERROR
+null
+java.lang.NullPointerException
+	at jargs.gnu.CmdLineParser.parse(CmdLineParser.java:444)
+	at jargs.gnu.CmdLineParser.parse(CmdLineParser.java:426)
+	at ca.uqam.mgl7361.a2011.omega.framework.Omega.parseCommandLineArguments(Unknown Source)
+	at ca.uqam.mgl7361.a2011.omega.framework.Omega.main(Unknown Source)
+	at ca.uqam.mgl7361.a2011.omega.framework.OmegaTest.testCommandLine(Unknown Source)
+
