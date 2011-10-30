@@ -1,2 +1,0 @@
-Test suite : Test suite #1
-Test Case : mgl7361.mockproject.test.BranchTest Passed : 1 Failed : 0
