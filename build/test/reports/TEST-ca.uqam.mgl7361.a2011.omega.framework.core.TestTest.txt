@@ -1,0 +1,6 @@
+Testsuite: ca.uqam.mgl7361.a2011.omega.framework.core.TestTest
+Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.011 sec
+
+Testcase: testGetSetupMethod took 0.002 sec
+Testcase: testGetTestMethod took 0 sec
+Testcase: testGetTeardownMethod took 0 sec

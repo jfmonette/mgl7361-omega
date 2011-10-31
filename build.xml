@@ -69,6 +69,7 @@
   <target name="testcompile" depends="init" description="compile the source">
     <javac srcdir="${src.tests}" destdir="${build.tests}/classes">
       <classpath refid="classpath.test.compile"/>
+      <compilerarg value="-Xlint:none"/>
     </javac>
   </target>
 
