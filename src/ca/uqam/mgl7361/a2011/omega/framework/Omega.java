@@ -64,6 +64,11 @@ public class Omega {
 		resultWriter.write(testSuiteResult, getOutputFormat());
 	}
 
+	/*
+	 * Si vous ajoutez de nouveaux paramètres à parser, il est bon de savoir que CmdLineParser
+	 * ne permet qu'un seul appel de la fonction getOptionValue par option. Le deuxième appel lance
+	 * une exception.
+	 */
 	private static void parseCommandLineArguments(String[] args) {
 		CmdLineParser.Option outputFileNameOption;
 		CmdLineParser.Option consoleOutputEnabledOption;
