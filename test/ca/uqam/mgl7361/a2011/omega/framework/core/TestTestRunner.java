@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import ca.uqam.mgl7361.a2011.omega.framework.results.Result;
 
 public class TestTestRunner {

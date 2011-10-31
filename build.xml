@@ -98,6 +98,7 @@
   <target name="run">
     <java classname="ca.uqam.mgl7361.a2011.omega.framework.Omega">
       <classpath refid="classpath.runtime"/>
+      <arg value="ca.uqam.mgl7361.a2011.omega.mockproject.BranchTest"/>
     </java>
   </target>
 
