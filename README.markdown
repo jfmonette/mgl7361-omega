@@ -16,6 +16,7 @@ Prérequis
 
 Java [JDK >= 6][jdk], [Ant][ant] et [git][git] doivent être installés.
 
+
 Marche à suivre
 ---------------
 
@@ -29,3 +30,6 @@ Marche à suivre
 [git]: http://git-scm.com/
 [jdk]: http://www.oracle.com/technetwork/java/javase/downloads/java-se-jdk-7-download-432154.html
 
+Note
+----
+Vous pouvez importer ce projet dans Eclipse.
